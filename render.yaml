@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: policyops-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./policy_compiler.db
+      - key: CHROMA_PERSIST_DIR
+        value: ./chroma_db
+      - key: UPLOAD_DIR
+        value: ./uploads
