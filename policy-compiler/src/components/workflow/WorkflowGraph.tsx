@@ -297,7 +297,7 @@ export const WorkflowGraph = memo(({ nodes, edges, className, onNodeSelect }: Wo
       return {
         ...edge,
         type: "smoothstep",
-        path_type: pathType,
+        data: { ...(edge.data ?? {}), path_type: pathType },
         sourceHandle: sourceType === "decision"
           ? pathType === "exception" || pathType === "failure"
             ? "left"
