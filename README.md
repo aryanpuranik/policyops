@@ -1,6 +1,6 @@
 # PolicyOps
 
-**Turn any business policy document into a production-ready operational workflow — automatically.**
+**Turn any business policy document into a production-ready operational workflow - automatically.**
 
 PolicyOps is a multi-agent AI system that ingests raw policy documents (PDFs, Word files, plain text) and produces structured, executable workflows complete with decision trees, risk scoring, exception handling, and human-in-the-loop review. What used to take compliance teams weeks now takes minutes.
 
@@ -8,7 +8,7 @@ PolicyOps is a multi-agent AI system that ingests raw policy documents (PDFs, Wo
 
 ## The Problem
 
-Every organization has policies — procurement rules, compliance mandates, HR procedures, security frameworks. But policies are written in natural language. Turning them into operational processes that teams can actually follow requires weeks of manual work: reading, interpreting, mapping decision logic, identifying edge cases, and getting approvals.
+Every organization has policies - procurement rules, compliance mandates, HR procedures, security frameworks. But policies are written in natural language. Turning them into operational processes that teams can actually follow requires weeks of manual work: reading, interpreting, mapping decision logic, identifying edge cases, and getting approvals.
 
 Most of this work is mechanical. It shouldn't require a human.
 
@@ -16,11 +16,11 @@ Most of this work is mechanical. It shouldn't require a human.
 
 Upload a policy document. A coordinated pipeline of five specialized AI agents runs in sequence:
 
-1. **Analysis Agent** — Extracts rules, actors, thresholds, and decision conditions. Identifies conflicts and scores compliance risk in a single structured pass.
-2. **Workflow Builder Agent** — Produces a step-by-step operational workflow with a visual decision tree (React Flow-compatible nodes and edges).
-3. **Exception Generation Agent** — Generates edge cases that the workflow must handle: VIP scenarios, fraud signals, missing data, escalation paths.
-4. **Simulation Agent** — Runs synthetic test scenarios through the workflow and surfaces bottlenecks and failure modes before the workflow reaches operations.
-5. **Human Review Agent** — Identifies the decisions that genuinely require human judgment and routes them to reviewers with full context — so humans focus only on what AI shouldn't decide alone.
+1. **Analysis Agent** - Extracts rules, actors, thresholds, and decision conditions. Identifies conflicts and scores compliance risk in a single structured pass.
+2. **Workflow Builder Agent** - Produces a step-by-step operational workflow with a visual decision tree (React Flow-compatible nodes and edges).
+3. **Exception Generation Agent** - Generates edge cases that the workflow must handle: VIP scenarios, fraud signals, missing data, escalation paths.
+4. **Simulation Agent** - Runs synthetic test scenarios through the workflow and surfaces bottlenecks and failure modes before the workflow reaches operations.
+5. **Human Review Agent** - Identifies the decisions that genuinely require human judgment and routes them to reviewers with full context - so humans focus only on what AI shouldn't decide alone.
 
 The result: a versioned, auditable workflow ready for approval, publication, and execution.
 
@@ -50,7 +50,7 @@ Upload Policy → Agent Pipeline Runs (live-streamed) → Workflow Generated
 
 ### Agent Pipeline (LangGraph)
 
-Each agent is a node in a directed LangGraph state machine. State flows forward — each agent receives the outputs of all previous agents and appends its own. The full pipeline runs in a background task; the frontend subscribes to live updates via Server-Sent Events.
+Each agent is a node in a directed LangGraph state machine. State flows forward - each agent receives the outputs of all previous agents and appends its own. The full pipeline runs in a background task; the frontend subscribes to live updates via Server-Sent Events.
 
 ```
 PolicyCompilerState
@@ -191,16 +191,16 @@ make dev     # start backend + frontend together
 ## Key Design Decisions
 
 **Why LangGraph over a single prompt?**
-Each agent in the pipeline has a distinct responsibility and a different output schema. LangGraph enforces this separation — agents can't bleed into each other's outputs, the state is typed, and the graph is inspectable. Adding or replacing a node doesn't require touching unrelated logic.
+Each agent in the pipeline has a distinct responsibility and a different output schema. LangGraph enforces this separation - agents can't bleed into each other's outputs, the state is typed, and the graph is inspectable. Adding or replacing a node doesn't require touching unrelated logic.
 
 **Why not stream directly from the LLM?**
-The pipeline runs in a FastAPI background task. The frontend polls via SSE on a separate connection. This means the pipeline is decoupled from the HTTP request lifecycle — it survives client disconnects, can be retried, and the full log history is persisted in SQLite.
+The pipeline runs in a FastAPI background task. The frontend polls via SSE on a separate connection. This means the pipeline is decoupled from the HTTP request lifecycle - it survives client disconnects, can be retried, and the full log history is persisted in SQLite.
 
 **Why SQLite?**
 For the scope of this project, SQLite with async SQLAlchemy is fast enough and requires zero infrastructure. The schema migration pattern (`_ensure_*_columns`) allows the database to evolve without a migration framework. Swapping to Postgres requires only a `DATABASE_URL` change.
 
 **Human-in-the-loop as a first-class citizen**
-The Human Review Agent doesn't just flag items — it structures each review item with a question, context, AI recommendation, confidence score, and the set of workflow steps it affects. This gives reviewers everything they need to make a decision without re-reading the original policy.
+The Human Review Agent doesn't just flag items - it structures each review item with a question, context, AI recommendation, confidence score, and the set of workflow steps it affects. This gives reviewers everything they need to make a decision without re-reading the original policy.
 
 ---
 
