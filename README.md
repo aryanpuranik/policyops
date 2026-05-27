@@ -4,7 +4,6 @@
 
 PolicyOps is a multi-agent AI system that ingests raw policy documents (PDFs, Word files, plain text) and produces structured, executable workflows complete with decision trees, risk scoring, exception handling, and human-in-the-loop review. What used to take compliance teams weeks now takes minutes.
 
----
 <img width="1327" height="591" alt="image" src="https://github.com/user-attachments/assets/bd6f9c53-7abd-4f26-a3bb-912d38395280" />
 
 ## The Problem
